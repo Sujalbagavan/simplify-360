@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Main Content -->
+    <main class="main">
+      <header class="header">
+        <h2>Social Media Analytics Dashboard</h2>
+      </header>
+
+      <!-- Metrics Cards -->
+      <section class="metrics">
+        <div class="card">
+          <h3>Total Followers</h3>
+          <p id="followers">124,856</p>
+          <span class="trend positive">↑ 12.3%</span>
+        </div>
+        <div class="card">
+          <h3>Engagement Rate</h3>
+          <p id="engagement">5.8%</p>
+          <span class="trend positive">↑ 2.1%</span>
+        </div>
+        <div class="card">
+          <h3>Total Posts</h3>
+          <p id="posts">892</p>
+          <span class="trend positive">↑ 5.4%</span>
+        </div>
+        <div class="card">
+          <h3>Avg Response Time</h3>
+          <p id="response-time">32m</p>
+          <span class="trend negative">↓ 1.2%</span>
+        </div>
+      </section>
+
+      <!-- Charts -->
+      <section class="charts">
+        <div class="chart-card">
+          <h3>Follower Growth</h3>
+          <canvas id="followersChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Platform Performance</h3>
+          <canvas id="platformChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Top Performing Tasks -->
+      <section class="top-tasks">
+        <h3>Top Performing Tasks</h3>
+        <div class="task-card">
+          <h4>Task: Launch Campaign</h4>
+          <p>Platform: Instagram</p>
+          <div class="task-stats">
+            <span>Engagement: 92%</span>
+            <span>Posts: 12</span>
+            <span>Reach: 120,000</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <h4>Task: User Poll</h4>
+          <p>Platform: Twitter</p>
+          <div class="task-stats">
+            <span>Engagement: 85%</span>
+            <span>Responses: 2,000</span>
+            <span>Reach: 45,000</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <h4>Task: Blog Post</h4>
+          <p>Platform: LinkedIn</p>
+          <div class="task-stats">
+            <span>Engagement: 76%</span>
+            <span>Shares: 1,500</span>
+            <span>Reach: 35,000</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <h4>Task: Video Promo</h4>
+          <p>Platform: YouTube</p>
+          <div class="task-stats">
+            <span>Views: 150,000</span>
+            <span>Likes: 12,000</span>
+            <span>Comments: 3,200</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
