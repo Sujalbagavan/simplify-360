@@ -59,8 +59,7 @@ copy the url and paste in the browser
 - .env: File for storing environment variables securely.
 - .project :contain the frontend application 
 
-## Demonstration
-https://youtu.be/U3UeG7rihoQ
+
 
 ## Notes
 Ensure you have a valid LangFlow APP_TOKEN before running the application.
