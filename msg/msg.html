@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    /* Previous styles remain... */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #2d3748;
+      min-height: 100vh;
+    }
+
+    .dashboard {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .welcome-section {
+      text-align: center;
+      margin: 3rem 0 4rem;
+      position: relative;
+    }
+
+    .welcome-title {
+      font-size: 2.5rem;
+      color: #1a202c;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .welcome-subtitle {
+      font-size: 1.25rem;
+      color: #4a5568;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .floating-circle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #4299e1;
+      opacity: 0;
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: scale(0.9);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4299e1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #4a5568;
+      font-size: 0.9rem;
+    }
+
+    .timeline {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      margin: 2rem 0;
+      opacity: 0;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4299e1;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 12px;
+      width: 2px;
+      height: calc(100% + 1.5rem);
+      background: #e2e8f0;
+    }
+
+    .timeline-item:last-child::after {
+      display: none;
+    }
+
+    .timeline-content {
+      margin-left: 1rem;
+    }
+
+    .timeline-time {
+      font-size: 0.875rem;
+      color: #718096;
+      margin-bottom: 0.25rem;
+    }
+
+    .message {
+      padding: 1rem;
+      background: #ebf8ff;
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+      opacity: 0;
+      transform: translateX(-20px);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .message:hover {
+      transform: scale(1.02) translateX(0);
+      background: #bee3f8;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+      opacity: 0;
+    }
+
+    .action-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      background: #4299e1;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(66, 153, 225, 0.3);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #4299e1;
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .project-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    /* Rest of the previous styles... */
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="welcome-section">
+      <h1 class="welcome-title">Welcome Back, John! </h1>
+      <p class="welcome-subtitle">Your team has been productive today!</p>
+      
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Active Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">85%</div>
+          <div class="stat-label">Tasks Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24</div>
+          <div class="stat-label">Team Members</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">92%</div>
+          <div class="stat-label">Team Satisfaction</div>
+        </div>
+      </div>
+
+
+      <div class="message"> The Website Redesign project is ahead of schedule!</div>
+      <div class="message"> Team meeting scheduled for tomorrow at 10:00 AM</div>
+      <div class="message"> New feature deployment successful</div>
+      <div class="message"> Performance improvements implemented</div>
+
+      <div class="timeline">
+        <h2>Recent Activity</h2>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-time">2 hours ago</div>
+            <div>Sarah completed the homepage redesign</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-time">4 hours ago</div>
+            <div>New team member Michael joined the Mobile App project</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-time">Yesterday</div>
+            <div>CRM Integration phase 1 completed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      <!-- Previous project cards remain... -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Website Redesign</h3>
+          <div class="status in-progress">In Progress</div>
+        </div>
+        <p>Modernizing the company website with new features and improved UI/UX.</p>
+        <div class="members">
+          <div class="member">AK</div>
+          <div class="member">BL</div>
+          <div class="member">CM</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" data-progress="65"></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Mobile App</h3>
+          <div class="status review">Review</div>
+        </div>
+        <p>Developing a new mobile application for customer engagement.</p>
+        <div class="members">
+          <div class="member">RJ</div>
+          <div class="member">SK</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" data-progress="85"></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>CRM Integration</h3>
+          <div class="status completed">Completed</div>
+        </div>
+        <p>Successfully integrated the new CRM system with existing tools.</p>
+        <div class="members">
+          <div class="member">PL</div>
+          <div class="member">MN</div>
+          <div class="member">RS</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" data-progress="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Create floating circles animation
+      const createFloatingCircles = () => {
+        for(let i = 0; i < 20; i++) {
+          const circle = document.createElement('div');
+          circle.className = 'floating-circle';
+          document.querySelector('.welcome-section').appendChild(circle);
+          
+          gsap.set(circle, {
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight
+          });
+          
+          gsap.to(circle, {
+            opacity: Math.random() * 0.5 + 0.2,
+            duration: 1,
+            y: `-=${Math.random() * 100 + 50}`,
+            repeat: -1,
+            yoyo: true,
+            ease: 'power1.inOut',
+            delay: Math.random() * 2
+          });
+        }
+      };
+
+      createFloatingCircles();
+
+      // Welcome section animations
+      gsap.to('.welcome-title', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'elastic.out(1, 0.7)'
+      });
+
+      gsap.to('.welcome-subtitle', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.3,
+        ease: 'elastic.out(1, 0.7)'
+      });
+
+      // Stat cards animation
+      gsap.to('.stat-card', {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'back.out(1.7)'
+      });
+
+      // Quick actions animation
+      gsap.to('.quick-actions', {
+        opacity: 1,
+        duration: 0.5,
+        delay: 0.5
+      });
+
+      // Messages animation with bounce
+      gsap.to('.message', {
+        opacity: 1,
+        x: 0,
+        duration: 0.7,
+        stagger: 0.2,
+        delay: 1,
+        ease: 'elastic.out(1, 0.7)'
+      });
+
+      // Timeline animation
+      gsap.to('.timeline', {
+        opacity: 1,
+        duration: 0.7,
+        delay: 1.5
+      });
+
+      // Project cards animation with stagger
+      gsap.to('.project-card', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.2,
+        delay: 2,
+        ease: 'power2.out'
+      });
+
+      // Progress bars animation
+      gsap.to('.progress', {
+        width: 'var(--progress)',
+        duration: 1.5,
+        ease: 'power2.out',
+        delay: 2.5,
+        stagger: 0.2
+      });
+
+      // Add hover animations for stats
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card.querySelector('.stat-number'), {
+            scale: 1.1,
+            color: '#2b6cb0',
+            duration: 0.3
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card.querySelector('.stat-number'), {
+            scale: 1,
+            color: '#4299e1',
+            duration: 0.3
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

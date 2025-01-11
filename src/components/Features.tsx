@@ -24,6 +24,7 @@ export default function Features() {
       icon: <Users2 className="w-8 h-8" />,
       title: "Team Collaboration",
       description: "Work together seamlessly with role-based access and workflows",
+      link: "/msg/msg.html", 
     },
     {
       icon: <Bot className="w-8 h-8" />,
@@ -35,6 +36,7 @@ export default function Features() {
       icon: <Zap className="w-8 h-8" />,
       title: "Quick Actions",
       description: "Respond faster with templated responses and automated workflows",
+       link: "/charts/quick.html"
     },
     {
       icon: <Shield className="w-8 h-8" />,

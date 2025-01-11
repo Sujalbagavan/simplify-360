@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #2d3748;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      opacity: 0;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #1a202c;
+      margin-bottom: 1rem;
+    }
+
+    .header p {
+      color: #4a5568;
+      font-size: 1.2rem;
+    }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .action-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #4299e1;
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .action-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .action-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      background: #ebf8ff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .action-title {
+      font-weight: bold;
+      color: #2d3748;
+    }
+
+    .template-preview {
+      background: #f7fafc;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: #4a5568;
+      max-height: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .template-preview::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(transparent, #f7fafc);
+    }
+
+    .action-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: #718096;
+    }
+
+    .workflow-steps {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .step {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e2e8f0;
+    }
+
+    .step.active {
+      background: #4299e1;
+    }
+
+    .recent-actions {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 2rem;
+      opacity: 0;
+    }
+
+    .recent-action-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .recent-action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-time {
+      font-size: 0.875rem;
+      color: #718096;
+    }
+
+    .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      background: #ebf8ff;
+      color: #4299e1;
+    }
+
+    .success-tag {
+      background: #f0fff4;
+      color: #48bb78;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1> Quick Actions</h1>
+      <p>Automate your responses and workflows</p>
+    </div>
+
+    <div class="quick-actions-grid">
+      <div class="action-card">
+        <div class="action-header">
+          <div class="action-icon"></div>
+          <div class="action-title">Support Response</div>
+        </div>
+        <div class="template-preview">
+          Thank you for reaching out! I understand you're experiencing [issue]. We're here to help. 
+          Here are the steps we can take to resolve this:
+          1. First, let's verify your account details
+          2. I'll check the specific error logs
+          3. We'll implement the solution together
+        </div>
+        <div class="workflow-steps">
+          <div class="step active"></div>
+          <div class="step active"></div>
+          <div class="step"></div>
+        </div>
+        <div class="action-stats">
+          <span>Used 234 times</span>
+          <span>•</span>
+          <span>98% success rate</span>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-header">
+          <div class="action-icon"></div>
+          <div class="action-title">Welcome Message</div>
+        </div>
+        <div class="template-preview">
+          Welcome aboard, [name]! We're thrilled to have you join our community. 
+          Here's everything you need to know to get started:
+          • Your account setup guide
+          • Key features overview
+          • Community guidelines
+        </div>
+        <div class="workflow-steps">
+          <div class="step active"></div>
+          <div class="step active"></div>
+          <div class="step active"></div>
+        </div>
+        <div class="action-stats">
+          <span>Used 567 times</span>
+          <span>•</span>
+          <span>99% success rate</span>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-header">
+          <div class="action-icon"></div>
+          <div class="action-title">Status Update</div>
+        </div>
+        <div class="template-preview">
+          Here's the latest update on your request [ticket#]:
+          Status: In Progress
+          Current Phase: Technical Review
+          Next Steps: Final Testing
+          Expected Completion: [date]
+        </div>
+        <div class="workflow-steps">
+          <div class="step active"></div>
+          <div class="step active"></div>
+          <div class="step active"></div>
+        </div>
+        <div class="action-stats">
+          <span>Used 189 times</span>
+          <span>•</span>
+          <span>95% success rate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-actions">
+      <h2>Recent Actions</h2>
+      <div class="recent-action-item">
+        <div class="action-icon"></div>
+        <div>
+          <div>Support Response Template Used</div>
+          <div class="action-time">2 minutes ago</div>
+        </div>
+        <div class="tag success-tag">Successful</div>
+      </div>
+      <div class="recent-action-item">
+        <div class="action-icon"></div>
+        <div>
+          <div>Welcome Message Sent</div>
+          <div class="action-time">15 minutes ago</div>
+        </div>
+        <div class="tag success-tag">Successful</div>
+      </div>
+      <div class="recent-action-item">
+        <div class="action-icon"></div>
+        <div>
+          <div>Status Update Workflow</div>
+          <div class="action-time">1 hour ago</div>
+        </div>
+        <div class="tag">In Progress</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Header animation
+      gsap.to('.header', {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      });
+
+      // Action cards animation
+      gsap.to('.action-card', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.2,
+        ease: 'back.out(1.2)'
+      });
+
+      // Recent actions animation
+      gsap.to('.recent-actions', {
+        opacity: 1,
+        duration: 0.7,
+        delay: 0.5,
+        ease: 'power2.out'
+      });
+
+      // Add click handlers for action cards
+      document.querySelectorAll('.action-card').forEach(card => {
+        card.addEventListener('click', () => {
+          gsap.to(card, {
+            scale: 0.95,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.out'
+          });
+        });
+      });
+
+      // Animate workflow steps
+      document.querySelectorAll('.workflow-steps').forEach(workflow => {
+        const steps = workflow.querySelectorAll('.step');
+        gsap.to(steps, {
+          scale: 1.2,
+          duration: 0.5,
+          stagger: 0.2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'power2.inOut'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
